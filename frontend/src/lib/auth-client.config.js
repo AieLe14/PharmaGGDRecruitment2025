@@ -1,7 +1,7 @@
 import Credentials from "next-auth/providers/credentials"
 
 export const clientAuthConfig = {
-	secret: process.env.NEXTAUTH_SECRET,
+	secret: process.env.NEXTAUTH_SECRET || "fallback-secret-key-for-development",
 	basePath: "/api/client/auth",
 	session: { strategy: "jwt", maxAge: 60 * 60 * 24 * 365 }, // 365j
 	cookies: {
@@ -22,9 +22,12 @@ export const clientAuthConfig = {
 			name: "Email & Password",
 			credentials: { email: {}, password: {} },
 			async authorize(credentials) {
-				const res = await fetch(`${process.env.BACKEND_URL}/user/auth/login`, {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
+			const res = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/auth/login`, {
+				method: "POST",
+				headers: { 
+					"Content-Type": "application/json",
+					"Accept": "application/json"
+				},
 					body: JSON.stringify({
 						email: credentials?.email,
 						password: credentials?.password
@@ -62,12 +65,13 @@ export const clientAuthConfig = {
 		signOut: async ({ token }) => {
 			if (token?.laravelAccessToken) {
 				try {
-					await fetch(`${process.env.BACKEND_URL}/user/logout`, {
-						method: "POST",
-						headers: {
-							Authorization: `Bearer ${token.laravelAccessToken}`,
-							"Content-Type": "application/json"
-						}
+				await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/auth/logout`, {
+					method: "POST",
+					headers: {
+						Authorization: `Bearer ${token.laravelAccessToken}`,
+						"Content-Type": "application/json",
+						"Accept": "application/json"
+					}
 					})
 
 					return true

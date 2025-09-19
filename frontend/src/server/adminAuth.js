@@ -1,6 +1,6 @@
 "use server"
 
-import { adminSignIn, adminSignOut } from "App/lib/auth-admin"
+import { adminSignIn, adminSignOut } from "@/lib/auth-admin"
 
 export async function adminAuth(email, password) {
     const result = await adminSignIn("laravel-admin", {

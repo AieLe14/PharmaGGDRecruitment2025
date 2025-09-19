@@ -23,7 +23,7 @@ export default async function middleware(req) {
 		const adminSession = await adminAuth()
 		const adminToken = await getToken({
 			req,
-			secret: process.env.NEXTAUTH_SECRET,
+			secret: process.env.NEXTAUTH_SECRET || "fallback-secret-key-for-development",
 			cookieName: "admin.session-token"
 		})
 
@@ -32,7 +32,7 @@ export default async function middleware(req) {
 			if (adminToken?.laravelAccessToken) {
 				// Vérifier si le token Laravel est encore valide
 				try {
-					const verify = await fetch(`${process.env.BACKEND_URL}/admin/auth/me`, {
+					const verify = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/admin/auth/me`, {
 						headers: { Authorization: `Bearer ${adminToken.laravelAccessToken}` }
 					})
 
@@ -57,7 +57,7 @@ export default async function middleware(req) {
 
 		// Vérifier la validité du token Laravel
 		try {
-			const verify = await fetch(`${process.env.BACKEND_URL}/admin/auth/me`, {
+			const verify = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/admin/auth/me`, {
 				headers: { Authorization: `Bearer ${adminToken.laravelAccessToken}` }
 			})
 
@@ -82,7 +82,7 @@ export default async function middleware(req) {
 		const clientSession = await clientAuth()
 		const clientToken = await getToken({
 			req,
-			secret: process.env.NEXTAUTH_SECRET,
+			secret: process.env.NEXTAUTH_SECRET || "fallback-secret-key-for-development",
 			cookieName: "client.session-token"
 		})
 
@@ -91,7 +91,7 @@ export default async function middleware(req) {
 			if (clientToken?.laravelAccessToken) {
 				// Vérifier si le token Laravel est encore valide
 				try {
-					const verify = await fetch(`${process.env.BACKEND_URL}/user/me`, {
+					const verify = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/auth/me`, {
 						headers: { Authorization: `Bearer ${clientToken.laravelAccessToken}` }
 					})
 
@@ -114,7 +114,7 @@ export default async function middleware(req) {
 
 		// Vérifier la validité du token Laravel
 		try {
-			const verify = await fetch(`${process.env.BACKEND_URL}/user/me`, {
+			const verify = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/auth/me`, {
 				headers: { Authorization: `Bearer ${clientToken.laravelAccessToken}` }
 			})
 

@@ -1,7 +1,7 @@
 "use client"
 
-import { adminLogout } from "App/server/adminAuth"
-import 'App/styles/dashboard.scss'
+import { adminLogout } from "@/server/adminAuth"
+import '@/styles/dashboard.scss'
 
 export default function AdminDashboard() {
 	const handleLogout = async () => {

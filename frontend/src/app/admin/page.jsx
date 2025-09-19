@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import 'App/styles/auth.scss'
-import { adminAuth } from "App/server/adminAuth"
+import '@/styles/auth.scss'
+import { adminAuth } from "@/server/adminAuth"
 import { redirect } from "next/navigation"
 
 export default function AdminLoginPage() {

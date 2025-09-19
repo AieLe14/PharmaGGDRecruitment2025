@@ -1,7 +1,7 @@
 import Credentials from "next-auth/providers/credentials"
 
 export const adminAuthConfig = {
-	secret: process.env.NEXTAUTH_SECRET,
+	secret: process.env.NEXTAUTH_SECRET || "fallback-secret-key-for-development",
 	basePath: "/api/admin/auth",
 	session: { strategy: "jwt", maxAge: 60 * 60 * 24 * 365 }, // 365j
 	cookies: {
@@ -22,9 +22,12 @@ export const adminAuthConfig = {
 			name: "Email & Password",
 			credentials: { email: {}, password: {} },
 			async authorize(credentials) {
-				const res = await fetch(`${process.env.BACKEND_URL}/admin/auth/login`, {
+				const res = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/admin/auth/login`, {
 					method: "POST",
-					headers: { "Content-Type": "application/json" },
+					headers: { 
+						"Content-Type": "application/json",
+						"Accept": "application/json"
+					},
 					body: JSON.stringify({
 						email: credentials?.email,
 						password: credentials?.password
@@ -65,11 +68,12 @@ export const adminAuthConfig = {
 		signOut: async ({ token }) => {
 			if (token?.laravelAccessToken) {
 				try {
-					await fetch(`${process.env.BACKEND_URL}/admin/logout`, {
+					await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/admin/auth/logout`, {
 						method: "POST",
 						headers: {
 							Authorization: `Bearer ${token.laravelAccessToken}`,
-							"Content-Type": "application/json"
+							"Content-Type": "application/json",
+							"Accept": "application/json"
 						}
 					})
 
