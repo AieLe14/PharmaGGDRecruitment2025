@@ -3,9 +3,8 @@ import Credentials from "next-auth/providers/credentials"
 export const adminAuthConfig = {
 	secret: process.env.NEXTAUTH_SECRET || "fallback-secret-key-for-development",
 	basePath: "/api/admin/auth",
-	session: { strategy: "jwt", maxAge: 60 * 60 * 24 * 365 }, // 365j
+	session: { strategy: "jwt", maxAge: 60 * 60 * 24 * 365 },
 	cookies: {
-		// cookie distinct pour le flux admin
 		sessionToken: {
 			name: "admin.session-token",
 			options: {
@@ -68,7 +67,6 @@ export const adminAuthConfig = {
 			session.user.laravelAccessToken = token.laravelAccessToken
 			return session
 		},
-		// Utilisé par le middleware pour protéger les routes admin
 		authorized: async ({ auth }) => !!auth && auth.user?.userType === "admin"
 	},
 	events: {

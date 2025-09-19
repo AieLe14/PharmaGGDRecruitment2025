@@ -7,10 +7,8 @@ export const useForm = (initialValues = {}) => {
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
   
-  // Utiliser une ref pour stocker les valeurs initiales et éviter les re-renders
   const initialValuesRef = useRef(initialValues)
   
-  // Mettre à jour la ref quand initialValues change
   initialValuesRef.current = initialValues
 
   const setValue = useCallback((name, value) => {
@@ -18,7 +16,6 @@ export const useForm = (initialValues = {}) => {
       ...prev,
       [name]: value
     }))
-    // Clear error when user starts typing
     setErrors(prev => {
       if (prev[name]) {
         return {

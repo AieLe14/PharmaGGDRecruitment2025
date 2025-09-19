@@ -16,12 +16,10 @@ class ProductController extends Controller
     {
         $query = Product::query();
 
-        // Filter by active status
         if ($request->has('active_only') && $request->boolean('active_only')) {
             $query->where('is_active', true);
         }
 
-        // Search by name or description
         if ($request->has('search')) {
             $search = $request->get('search');
             $query->where(function ($q) use ($search) {
@@ -30,7 +28,6 @@ class ProductController extends Controller
             });
         }
 
-        // Filter by category
         if ($request->has('category')) {
             $query->where('category', $request->get('category'));
         }
@@ -96,7 +93,6 @@ class ProductController extends Controller
             ],
         ]);
 
-        // Vérifier les permissions pour la modification du prix
         if (isset($validated['price']) && $validated['price'] != $product->price) {
             $canUpdatePrice = $admin->role && (
                 $admin->role->all_permissions || 

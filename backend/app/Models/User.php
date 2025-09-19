@@ -63,12 +63,10 @@ class User extends Authenticatable
             return false;
         }
 
-        // If role has all permissions, return true
         if ($this->role->all_permissions) {
             return true;
         }
 
-        // Check specific permission
         return $this->role->permissions()->where('code', $permissionCode)->exists();
     }
 }

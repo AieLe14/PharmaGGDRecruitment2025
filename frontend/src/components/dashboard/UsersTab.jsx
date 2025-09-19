@@ -5,7 +5,6 @@ import { useAuth } from "@/contexts/AuthContext"
 import { useNotification } from "@/contexts/NotificationContext"
 import Button from "@/components/ui/Button"
 
-// Composant formulaire utilisateur simple
 const UserForm = ({ user, onSubmit, onCancel, isEditing }) => {
   const [formData, setFormData] = useState({
     name: user?.name || '',
@@ -25,7 +24,6 @@ const UserForm = ({ user, onSubmit, onCancel, isEditing }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     
-    // Validation simple
     if (!formData.name.trim() || !formData.email.trim()) {
       alert('Le nom et l\'email sont requis')
       return
@@ -266,7 +264,6 @@ const UsersTab = () => {
     setSelectedUser(null)
   }, [])
 
-  // Vérifier que seul le super admin peut accéder
   if (!adminInfo?.role || adminInfo.role.code !== 'super_admin') {
     return (
       <div className="tab-content">

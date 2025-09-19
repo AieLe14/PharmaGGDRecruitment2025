@@ -13,7 +13,6 @@ const ProductForm = memo(({
 }) => {
   const isEditing = !!product
   
-  // Utiliser useMemo pour éviter la recréation de initialValues à chaque rendu
   const initialValues = useMemo(() => ({
     name: product?.name || '',
     description: product?.description || '',
@@ -36,7 +35,6 @@ const ProductForm = memo(({
   const handleSubmit = async (e) => {
     e.preventDefault()
     
-    // Validation côté client
     const newErrors = {}
     
     if (!values.name.trim()) newErrors.name = 'Le nom est requis'

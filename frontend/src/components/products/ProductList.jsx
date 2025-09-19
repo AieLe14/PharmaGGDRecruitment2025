@@ -7,7 +7,6 @@ import { useAuth } from "@/contexts/AuthContext"
 import { useNotification } from "@/contexts/NotificationContext"
 import Button from "@/components/ui/Button"
 
-// Composant formulaire d'édition simple sans hook useForm
 const EditProductForm = ({ product, onSubmit, onCancel, hasPricePermission }) => {
   const [formData, setFormData] = useState({
     name: product?.name || '',

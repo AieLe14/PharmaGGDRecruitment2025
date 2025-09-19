@@ -5,7 +5,6 @@ const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8000'
 
 export async function GET(request) {
   try {
-    // Récupérer le token NextAuth
     const token = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET || "fallback-secret-key-for-development",
@@ -16,7 +15,6 @@ export async function GET(request) {
       return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
     }
 
-    // Faire la requête vers Laravel
     const response = await fetch(`${BACKEND_URL}/api/admin/users`, {
       method: 'GET',
       headers: {
@@ -41,7 +39,6 @@ export async function GET(request) {
 
 export async function POST(request) {
   try {
-    // Récupérer le token NextAuth
     const token = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET || "fallback-secret-key-for-development",
@@ -54,7 +51,6 @@ export async function POST(request) {
 
     const body = await request.json()
 
-    // Faire la requête vers Laravel
     const response = await fetch(`${BACKEND_URL}/api/admin/users`, {
       method: 'POST',
       headers: {

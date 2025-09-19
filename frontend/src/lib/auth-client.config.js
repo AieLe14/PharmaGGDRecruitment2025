@@ -3,9 +3,8 @@ import Credentials from "next-auth/providers/credentials"
 export const clientAuthConfig = {
 	secret: process.env.NEXTAUTH_SECRET || "fallback-secret-key-for-development",
 	basePath: "/api/client/auth",
-	session: { strategy: "jwt", maxAge: 60 * 60 * 24 * 365 }, // 365j
+	session: { strategy: "jwt", maxAge: 60 * 60 * 24 * 365 },
 	cookies: {
-		// cookie distinct pour le flux client
 		sessionToken: {
 			name: "client.session-token",
 			options: {
@@ -58,7 +57,6 @@ export const clientAuthConfig = {
 			session.user.laravelAccessToken = token.laravelAccessToken
 			return session
 		},
-		// Utilisé par le middleware pour protéger les routes client
 		authorized: async ({ auth }) => !!auth && auth.user?.userType === "user"
 	},
 	events: {

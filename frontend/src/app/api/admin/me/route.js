@@ -13,7 +13,6 @@ export async function GET(req) {
 			return NextResponse.json({ error: "Non authentifié" }, { status: 401 })
 		}
 
-		// Récupérer les informations de l'admin depuis Laravel
 		const response = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/admin/auth/me`, {
 			headers: {
 				Authorization: `Bearer ${token.laravelAccessToken}`,

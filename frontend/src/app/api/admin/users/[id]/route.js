@@ -5,7 +5,6 @@ const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8000'
 
 export async function GET(request, { params }) {
   try {
-    // Récupérer le token NextAuth
     const token = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET || "fallback-secret-key-for-development",
@@ -18,7 +17,6 @@ export async function GET(request, { params }) {
 
     const { id } = params
 
-    // Faire la requête vers Laravel
     const response = await fetch(`${BACKEND_URL}/api/admin/users/${id}`, {
       method: 'GET',
       headers: {
@@ -43,7 +41,6 @@ export async function GET(request, { params }) {
 
 export async function PUT(request, { params }) {
   try {
-    // Récupérer le token NextAuth
     const token = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET || "fallback-secret-key-for-development",
@@ -57,7 +54,6 @@ export async function PUT(request, { params }) {
     const { id } = params
     const body = await request.json()
 
-    // Faire la requête vers Laravel
     const response = await fetch(`${BACKEND_URL}/api/admin/users/${id}`, {
       method: 'PUT',
       headers: {
@@ -83,7 +79,6 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
-    // Récupérer le token NextAuth
     const token = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET || "fallback-secret-key-for-development",
@@ -96,7 +91,6 @@ export async function DELETE(request, { params }) {
 
     const { id } = params
 
-    // Faire la requête vers Laravel
     const response = await fetch(`${BACKEND_URL}/api/admin/users/${id}`, {
       method: 'DELETE',
       headers: {

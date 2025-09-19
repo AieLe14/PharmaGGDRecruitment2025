@@ -60,7 +60,6 @@ class AdminAuthController extends Controller
             ]);
         }
 
-        // Revoke all previous tokens
         $admin->tokens()->delete();
 
         $token = $admin->createToken('admin_auth_token', ['admin'])->plainTextToken;
@@ -105,10 +104,8 @@ class AdminAuthController extends Controller
     {
         $admin = $request->user();
         
-        // Revoke current token
         $request->user()->currentAccessToken()->delete();
         
-        // Create new token
         $token = $admin->createToken('admin_auth_token', ['admin'])->plainTextToken;
 
         return response()->json([

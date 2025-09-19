@@ -6,7 +6,6 @@ import { useState, useEffect } from "react"
 const DashboardNavigation = ({ activeTab, onTabChange }) => {
   const { hasPermission, adminInfo } = useAuth()
 
-  // S'assurer que l'onglet actif est valide selon les permissions
   useEffect(() => {
     if (activeTab === 'users' && (!hasPermission('users.read') || adminInfo?.role?.code !== 'super_admin')) {
       onTabChange('products')
@@ -20,7 +19,7 @@ const DashboardNavigation = ({ activeTab, onTabChange }) => {
     {
       id: 'products',
       label: '📦 Gestion des Produits',
-      permission: null // Toujours visible
+      permission: null
     },
     {
       id: 'users',
@@ -36,7 +35,6 @@ const DashboardNavigation = ({ activeTab, onTabChange }) => {
 
   const visibleTabs = tabs.filter(tab => {
     if (tab.id === 'users') {
-      // Seul le super admin peut voir l'onglet utilisateurs
       return hasPermission(tab.permission) && adminInfo?.role?.code === 'super_admin'
     }
     return !tab.permission || hasPermission(tab.permission)

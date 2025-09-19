@@ -10,7 +10,6 @@ const Modal = ({
   size = 'medium',
   showCloseButton = true 
 }) => {
-  // Handle escape key
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === 'Escape') {

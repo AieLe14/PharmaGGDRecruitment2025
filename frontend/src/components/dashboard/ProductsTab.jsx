@@ -8,7 +8,6 @@ import ProductList from "@/components/products/ProductList"
 import ProductForm from "@/components/forms/ProductForm"
 import Button from "@/components/ui/Button"
 
-// Composant formulaire simple sans hook useForm
 const SimpleProductForm = ({ onSubmit, onCancel, hasPricePermission }) => {
   const [formData, setFormData] = useState({
     name: '',

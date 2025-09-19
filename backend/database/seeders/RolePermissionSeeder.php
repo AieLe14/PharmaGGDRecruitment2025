@@ -14,7 +14,6 @@ class RolePermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create permissions
         $permissions = [
             ['code' => 'users.read', 'name' => 'Read Users'],
             ['code' => 'users.create', 'name' => 'Create Users'],
@@ -43,7 +42,6 @@ class RolePermissionSeeder extends Seeder
             Permission::create($permission);
         }
 
-        // Create roles
         $superAdminRole = Role::create([
             'code' => 'super_admin',
             'name' => 'Administrateur',
@@ -56,7 +54,6 @@ class RolePermissionSeeder extends Seeder
             'all_permissions' => false
         ]);
 
-        // Assign ALL permissions to super admin role
         $allPermissions = Permission::all();
         foreach ($allPermissions as $permission) {
             DB::table('role_permission')->insert([
@@ -65,7 +62,6 @@ class RolePermissionSeeder extends Seeder
             ]);
         }
 
-        // Assign specific permissions to catalog role
         $catalogPermissions = Permission::whereIn('code', [
             'products.read', 'products.create', 'products.update', 'products.delete'
         ])->get();

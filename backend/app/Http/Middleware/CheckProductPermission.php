@@ -21,12 +21,10 @@ class CheckProductPermission
             return response()->json(['error' => 'Non authentifié'], 401);
         }
 
-        // Vérifier si l'admin a tous les droits
         if ($admin->role && $admin->role->all_permissions) {
             return $next($request);
         }
 
-        // Vérifier la permission spécifique
         $hasPermission = $admin->role && $admin->role->permissions()
             ->where('code', $permission)
             ->exists();

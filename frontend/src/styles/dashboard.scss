@@ -215,7 +215,6 @@
   }
 }
 
-// Styles pour la page dashboard
 .dashboard-page {
   min-height: 100vh;
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
@@ -474,7 +473,6 @@
   }
 }
 
-// Styles pour la gestion des produits
 .products-list {
   .products-grid {
     display: grid;
@@ -637,7 +635,6 @@
         z-index: 10;
         pointer-events: auto;
 
-        // Styles pour les boutons génériques
         button {
           border: none;
           padding: 0.625rem 1.25rem;
@@ -659,7 +656,6 @@
           }
         }
 
-        // Styles spécifiques pour les boutons avec les classes Tailwind
         .bg-blue-600 {
           background: #3b82f6 !important;
           color: white !important;
@@ -682,7 +678,6 @@
           }
         }
 
-        // Styles pour tous les boutons dans les actions produits
         button {
           cursor: pointer !important;
           pointer-events: auto !important;
@@ -712,7 +707,6 @@
   }
 }
 
-// Styles pour les formulaires de produits
 .product-form-container {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
@@ -822,7 +816,6 @@
   }
 }
 
-// Modal pour l'édition
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -852,7 +845,6 @@
     text-align: center;
   }
 
-  // Modal de suppression
   &.delete-modal {
     max-width: 400px;
     text-align: center;
@@ -930,7 +922,6 @@
   }
 }
 
-// États vides
 .empty-state {
   @include flex-center;
   flex-direction: column;
@@ -943,7 +934,6 @@
   }
 }
 
-// Messages d'erreur
 .error-message {
   background-color: color.mix($red, $white, 10%);
   color: $red;
@@ -953,7 +943,6 @@
   border: 1px solid color.mix($red, $white, 30%);
 }
 
-// Loading
 .loading {
   @include flex-center;
   padding: 2rem;
@@ -961,7 +950,6 @@
   font-size: 1rem;
 }
 
-// Snackbar
 .snackbar {
   position: fixed;
   bottom: 2rem;
@@ -1032,7 +1020,6 @@
   }
 }
 
-// Styles pour les onglets admin
 .admin-tabs {
   background: white;
   border-bottom: 1px solid #e2e8f0;
@@ -1086,7 +1073,6 @@
   }
 }
 
-// Styles pour le contenu des onglets
 .tab-content {
   .tab-header {
     @include flex-between;
@@ -1135,7 +1121,6 @@
         transform: none;
       }
 
-      // Tooltip
       &::after {
         content: attr(title);
         position: absolute;
@@ -1163,7 +1148,6 @@
   }
 }
 
-// Styles généraux pour tous les boutons (sauf ceux avec des classes Tailwind)
 button:not([class*="bg-"]):not([class*="text-"]):not([class*="border-"]):not([class*="px-"]):not([class*="py-"]) {
   font-family: inherit;
   border: none;
@@ -1180,7 +1164,6 @@ button:not([class*="bg-"]):not([class*="text-"]):not([class*="border-"]):not([cl
   }
 }
 
-// Styles pour les permissions et champs désactivés
 .disabled-field {
   background-color: #f8fafc !important;
   color: #64748b !important;
@@ -1202,7 +1185,6 @@ button:not([class*="bg-"]):not([class*="text-"]):not([class*="border-"]):not([cl
   font-style: italic;
 }
 
-// Styles pour les formulaires
 .product-form {
   .form-group {
     margin-bottom: 1rem;
@@ -1290,7 +1272,6 @@ button:not([class*="bg-"]):not([class*="text-"]):not([class*="border-"]):not([cl
   }
 }
 
-// Styles pour la gestion des utilisateurs
 .users-list {
   margin-top: 2rem;
 }

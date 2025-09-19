@@ -13,7 +13,6 @@ export async function GET(req) {
 			return NextResponse.json({ error: "Non authentifié" }, { status: 401 })
 		}
 
-		// Récupérer les produits depuis Laravel
 		const response = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/admin/products`, {
 			headers: {
 				Authorization: `Bearer ${token.laravelAccessToken}`,
@@ -48,7 +47,6 @@ export async function POST(req) {
 
 		const body = await req.json()
 
-		// Créer le produit via Laravel
 		const response = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/admin/products`, {
 			method: 'POST',
 			headers: {

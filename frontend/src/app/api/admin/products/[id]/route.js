@@ -15,7 +15,6 @@ export async function GET(req, { params }) {
 
 		const { id } = params
 
-		// Récupérer le produit depuis Laravel
 		const response = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/admin/products/${id}`, {
 			headers: {
 				Authorization: `Bearer ${token.laravelAccessToken}`,
@@ -51,7 +50,6 @@ export async function PUT(req, { params }) {
 		const { id } = params
 		const body = await req.json()
 
-		// Mettre à jour le produit via Laravel
 		const response = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/admin/products/${id}`, {
 			method: 'PUT',
 			headers: {
@@ -89,7 +87,6 @@ export async function DELETE(req, { params }) {
 
 		const { id } = params
 
-		// Supprimer le produit via Laravel
 		const response = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/admin/products/${id}`, {
 			method: 'DELETE',
 			headers: {
