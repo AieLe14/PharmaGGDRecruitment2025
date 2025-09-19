@@ -4,3 +4,5 @@
 .next/
 *.cache
 .DS_Store
+explication/
+.
