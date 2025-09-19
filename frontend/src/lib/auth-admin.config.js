@@ -22,26 +22,33 @@ export const adminAuthConfig = {
 			name: "Email & Password",
 			credentials: { email: {}, password: {} },
 			async authorize(credentials) {
-				const res = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/admin/auth/login`, {
-					method: "POST",
-					headers: { 
-						"Content-Type": "application/json",
-						"Accept": "application/json"
-					},
-					body: JSON.stringify({
-						email: credentials?.email,
-						password: credentials?.password
+				try {
+					const res = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/admin/auth/login`, {
+						method: "POST",
+						headers: { 
+							"Content-Type": "application/json",
+							"Accept": "application/json"
+						},
+						body: JSON.stringify({
+							email: credentials?.email,
+							password: credentials?.password
+						})
 					})
-				})
-				if (!res.ok) return null
-				const data = await res.json()
-				return {
-					id: data.admin.id.toString(),
-					name: data.admin.name,
-					email: data.admin.email,
-					laravelAccessToken: data.token,
-					userType: 'admin',
-					role: data.admin.role,
+					
+					if (!res.ok) return null
+					
+					const data = await res.json()
+					return {
+						id: data.admin.id.toString(),
+						name: data.admin.name,
+						email: data.admin.email,
+						laravelAccessToken: data.token,
+						userType: 'admin',
+						role: data.admin.role,
+					}
+				} catch (error) {
+					console.error('Erreur dans authorize:', error)
+					return null
 				}
 			}
 		})

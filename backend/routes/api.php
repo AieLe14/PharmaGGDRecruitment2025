@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,6 +44,11 @@ Route::middleware(['auth:sanctum', 'role.admin'])->prefix('admin/auth')->group(f
     Route::post('/refresh', [AdminAuthController::class, 'refresh']);
 });
 
+// Route pour le frontend (compatibilité)
+Route::middleware(['auth:sanctum', 'role.admin'])->prefix('admin')->group(function () {
+    Route::get('/me', [AdminAuthController::class, 'me']);
+});
+
 // Test routes for authenticated users
 Route::middleware(['auth:sanctum', 'role.user'])->group(function () {
     Route::get('/user/dashboard', function () {
@@ -60,4 +67,20 @@ Route::middleware(['auth:sanctum', 'role.admin'])->group(function () {
             'admin' => auth()->user()->load('role')
         ]);
     });
+});
+
+// Product routes for admins
+Route::middleware(['auth:sanctum', 'role.admin'])->prefix('admin')->group(function () {
+    Route::get('products', [ProductController::class, 'index']);
+    Route::post('products', [ProductController::class, 'store'])->middleware('permission.product:products.create');
+    Route::get('products/{product}', [ProductController::class, 'show']);
+    Route::put('products/{product}', [ProductController::class, 'update'])->middleware('permission.product:products.update');
+    Route::delete('products/{product}', [ProductController::class, 'destroy'])->middleware('permission.product:products.delete');
+    
+    // User routes for admins
+    Route::get('users', [UserController::class, 'index'])->middleware('permission.product:users.read');
+    Route::post('users', [UserController::class, 'store'])->middleware('permission.product:users.create');
+    Route::get('users/{user}', [UserController::class, 'show'])->middleware('permission.product:users.read');
+    Route::put('users/{user}', [UserController::class, 'update'])->middleware('permission.product:users.update');
+    Route::delete('users/{user}', [UserController::class, 'destroy'])->middleware('permission.product:users.delete');
 });

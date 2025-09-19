@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
+use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,12 +18,12 @@ class AdminAuthController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:admins',
+            'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'role_id' => 'required|exists:roles,id'
         ]);
 
-        $admin = Admin::create([
+        $admin = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -52,7 +52,7 @@ class AdminAuthController extends Controller
             'password' => 'required',
         ]);
 
-        $admin = Admin::with('role')->where('email', $request->email)->first();
+        $admin = User::with('role')->where('email', $request->email)->first();
 
         if (!$admin || !Hash::check($request->password, $admin->password)) {
             throw ValidationException::withMessages([
@@ -90,7 +90,7 @@ class AdminAuthController extends Controller
      */
     public function me(Request $request)
     {
-        $admin = $request->user()->load('role');
+        $admin = $request->user()->load('role.permissions');
         
         return response()->json([
             'admin' => $admin,

@@ -21,8 +21,8 @@ class EnsureAdminRole
             return response()->json(['message' => 'Unauthenticated'], 401);
         }
 
-        // Vérifier que l'utilisateur est bien un Admin (pas un User)
-        if (!($user instanceof \App\Models\Admin)) {
+        // Vérifier que l'utilisateur a un rôle admin
+        if (!$user->role || !in_array($user->role->code, ['super_admin', 'catalog'])) {
             return response()->json(['message' => 'Forbidden - Admin access required'], 403);
         }
 

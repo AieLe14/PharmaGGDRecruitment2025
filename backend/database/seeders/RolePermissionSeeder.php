@@ -32,6 +32,11 @@ class RolePermissionSeeder extends Seeder
             ['code' => 'permissions.create', 'name' => 'Create Permissions'],
             ['code' => 'permissions.update', 'name' => 'Update Permissions'],
             ['code' => 'permissions.delete', 'name' => 'Delete Permissions'],
+            ['code' => 'products.read', 'name' => 'Read Products'],
+            ['code' => 'products.create', 'name' => 'Create Products'],
+            ['code' => 'products.update', 'name' => 'Update Products'],
+            ['code' => 'products.delete', 'name' => 'Delete Products'],
+            ['code' => 'products.price.update', 'name' => 'Update Product Prices'],
         ];
 
         foreach ($permissions as $permission) {
@@ -51,22 +56,18 @@ class RolePermissionSeeder extends Seeder
             'all_permissions' => false
         ]);
 
-        // Assign specific permissions to admin role
-        $adminPermissions = Permission::whereIn('code', [
-            'users.read', 'users.create', 'users.update',
-            'admins.read', 'roles.read', 'permissions.read'
-        ])->get();
-
-        foreach ($adminPermissions as $permission) {
+        // Assign ALL permissions to super admin role
+        $allPermissions = Permission::all();
+        foreach ($allPermissions as $permission) {
             DB::table('role_permission')->insert([
                 'role_id' => $superAdminRole->id,
                 'permission_id' => $permission->id
             ]);
         }
 
-        // Assign specific permissions to moderator role
+        // Assign specific permissions to catalog role
         $catalogPermissions = Permission::whereIn('code', [
-            'users.read',
+            'products.read', 'products.create', 'products.update', 'products.delete'
         ])->get();
 
         foreach ($catalogPermissions as $permission) {
