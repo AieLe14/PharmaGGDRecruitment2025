@@ -21,7 +21,6 @@ class EnsureUserRole
             return response()->json(['message' => 'Unauthenticated'], 401);
         }
 
-        // Vérifier que l'utilisateur est bien un User (pas un Admin)
         if (!($user instanceof \App\Models\User)) {
             return response()->json(['message' => 'Forbidden - User access required'], 403);
         }

@@ -15,7 +15,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create test users
         User::create([
             'name' => 'John Doe',
             'email' => 'user@pharma-gdd.com',
@@ -30,7 +29,25 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        // Create test admins
+        $superAdminRole = Role::where('code', 'super_admin')->first();
+        $catalogRole = Role::where('code', 'catalog')->first();
+
+        User::create([
+            'name' => 'Admin Admin',
+            'email' => 'admin@pharma-gdd.com',
+            'password' => Hash::make('admin123'),
+            'role_id' => $superAdminRole->id,
+            'email_verified_at' => now(),
+        ]);
+
+        User::create([
+            'name' => 'Admin Catalogue',
+            'email' => 'catalog@pharma-gdd.com',
+            'password' => Hash::make('catalog123'),
+            'role_id' => $catalogRole->id,
+            'email_verified_at' => now(),
+        ]);
+
         $superAdminRole = Role::where('code', 'super_admin')->first();
         $adminCatalog = Role::where('code', 'catalog')->first();
 

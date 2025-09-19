@@ -3,9 +3,8 @@ import Credentials from "next-auth/providers/credentials"
 export const adminAuthConfig = {
 	secret: process.env.NEXTAUTH_SECRET || "fallback-secret-key-for-development",
 	basePath: "/api/admin/auth",
-	session: { strategy: "jwt", maxAge: 60 * 60 * 24 * 365 }, // 365j
+	session: { strategy: "jwt", maxAge: 60 * 60 * 24 * 365 },
 	cookies: {
-		// cookie distinct pour le flux admin
 		sessionToken: {
 			name: "admin.session-token",
 			options: {
@@ -22,26 +21,33 @@ export const adminAuthConfig = {
 			name: "Email & Password",
 			credentials: { email: {}, password: {} },
 			async authorize(credentials) {
-				const res = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/admin/auth/login`, {
-					method: "POST",
-					headers: { 
-						"Content-Type": "application/json",
-						"Accept": "application/json"
-					},
-					body: JSON.stringify({
-						email: credentials?.email,
-						password: credentials?.password
+				try {
+					const res = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/admin/auth/login`, {
+						method: "POST",
+						headers: { 
+							"Content-Type": "application/json",
+							"Accept": "application/json"
+						},
+						body: JSON.stringify({
+							email: credentials?.email,
+							password: credentials?.password
+						})
 					})
-				})
-				if (!res.ok) return null
-				const data = await res.json()
-				return {
-					id: data.admin.id.toString(),
-					name: data.admin.name,
-					email: data.admin.email,
-					laravelAccessToken: data.token,
-					userType: 'admin',
-					role: data.admin.role,
+					
+					if (!res.ok) return null
+					
+					const data = await res.json()
+					return {
+						id: data.admin.id.toString(),
+						name: data.admin.name,
+						email: data.admin.email,
+						laravelAccessToken: data.token,
+						userType: 'admin',
+						role: data.admin.role,
+					}
+				} catch (error) {
+					console.error('Erreur dans authorize:', error)
+					return null
 				}
 			}
 		})
@@ -61,7 +67,6 @@ export const adminAuthConfig = {
 			session.user.laravelAccessToken = token.laravelAccessToken
 			return session
 		},
-		// Utilisé par le middleware pour protéger les routes admin
 		authorized: async ({ auth }) => !!auth && auth.user?.userType === "admin"
 	},
 	events: {

@@ -15,8 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role.user' => \App\Http\Middleware\EnsureUserRole::class,
             'role.admin' => \App\Http\Middleware\EnsureAdminRole::class,
+            'permission.product' => \App\Http\Middleware\CheckProductPermission::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
     })->create();
