@@ -1,8 +1,4 @@
-# Documentation Technique - Plateforme E-commerce PharmaGGD
-
-## Vue d'ensemble du projet
-
-Ce projet est une plateforme e-commerce complète développée avec Laravel (backend) et Next.js (frontend), spécialement conçue pour la gestion de produits pharmaceutiques. L'architecture sépare clairement les interfaces administrateur et publique, avec un système de rôles et permissions sophistiqué.
+# Documentation Technique -
 
 ## Architecture Technique
 
