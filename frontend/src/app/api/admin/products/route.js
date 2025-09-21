@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import config from '@/lib/config'
 import { getToken } from "next-auth/jwt"
 
 export async function GET(req) {
@@ -13,7 +14,7 @@ export async function GET(req) {
 			return NextResponse.json({ error: "Non authentifié" }, { status: 401 })
 		}
 
-		const response = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/admin/products`, {
+		const response = await fetch(`${config.api.adminProducts}`, {
 			headers: {
 				Authorization: `Bearer ${token.laravelAccessToken}`,
 				'Content-Type': 'application/json'
@@ -47,7 +48,7 @@ export async function POST(req) {
 
 		const body = await req.json()
 
-		const response = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/admin/products`, {
+		const response = await fetch(`${config.api.adminProducts}`, {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${token.laravelAccessToken}`,

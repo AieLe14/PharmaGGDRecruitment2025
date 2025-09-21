@@ -1,15 +1,18 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { useAdminAuth } from "@/hooks/useAdminAuth"
 import '@/styles/auth.scss'
-import { adminAuth } from "@/server/adminAuth"
-import { redirect } from "next/navigation"
 
 export default function AdminLoginPage() {
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
 	const [isLoading, setIsLoading] = useState(false)
 	const [error, setError] = useState("")
+	const [success, setSuccess] = useState(false)
+	const router = useRouter()
+	const { login } = useAdminAuth()
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
@@ -17,17 +20,45 @@ export default function AdminLoginPage() {
 		setError("")
 
 		try {
-			const result = await adminAuth(email, password)
+			const apiUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/api/auth/login`
+			
+			const response = await fetch(apiUrl, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"Accept": "application/json"
+				},
+				body: JSON.stringify({ email, password })
+			})
 
-			if (result?.error) {
-				setError("Email ou mot de passe incorrect")
-			} else {
-				redirect("/admin/dashboard")
+			if (!response.ok) {
+				const errorData = await response.json()
+				setError(errorData.message || "Email ou mot de passe incorrect")
+				return
 			}
+
+			const data = await response.json()
+
+			if (!data.user?.role) {
+				setError("Accès non autorisé. Seuls les administrateurs peuvent se connecter.")
+				return
+			}
+
+			const sessionData = {
+				user: data.user,
+				token: data.token,
+				userType: 'admin'
+			}
+			login(sessionData)
+
+			setSuccess(true)
+			setIsLoading(false)
+			
+			setTimeout(() => {
+				router.push("/admin")
+			}, 500)
 		} catch (err) {
 			setError("Erreur de connexion")
-			console.error("Erreur login admin:", err)
-		} finally {
 			setIsLoading(false)
 		}
 	}
@@ -49,6 +80,20 @@ export default function AdminLoginPage() {
 						{error && (
 							<div className="error-message">
 								{error}
+							</div>
+						)}
+						
+						{success && (
+							<div className="success-message">
+								✅ Connexion réussie ! Redirection en cours...
+								<br />
+								<button 
+									type="button" 
+									onClick={() => router.push("/admin")}
+									className="btn-dashboard"
+								>
+									Aller au dashboard maintenant
+								</button>
 							</div>
 						)}
 

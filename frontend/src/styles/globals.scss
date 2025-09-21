@@ -1,4 +1,8 @@
 @use 'variables' as *;
+@use 'home';
+@use 'cart';
+@use 'pagination';
+@use 'public-products';
 
 * {
   margin: 0;
