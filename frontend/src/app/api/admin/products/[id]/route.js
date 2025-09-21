@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import config from '@/lib/config'
 import { getToken } from "next-auth/jwt"
 
 export async function GET(req, { params }) {
@@ -15,7 +16,7 @@ export async function GET(req, { params }) {
 
 		const { id } = params
 
-		const response = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/admin/products/${id}`, {
+		const response = await fetch(`${config.api.adminProducts}/${id}`, {
 			headers: {
 				Authorization: `Bearer ${token.laravelAccessToken}`,
 				'Content-Type': 'application/json'
@@ -50,7 +51,7 @@ export async function PUT(req, { params }) {
 		const { id } = params
 		const body = await req.json()
 
-		const response = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/admin/products/${id}`, {
+		const response = await fetch(`${config.api.adminProducts}/${id}`, {
 			method: 'PUT',
 			headers: {
 				Authorization: `Bearer ${token.laravelAccessToken}`,
@@ -87,7 +88,7 @@ export async function DELETE(req, { params }) {
 
 		const { id } = params
 
-		const response = await fetch(`${process.env.BACKEND_URL || 'http://localhost:8000'}/api/admin/products/${id}`, {
+		const response = await fetch(`${config.api.adminProducts}/${id}`, {
 			method: 'DELETE',
 			headers: {
 				Authorization: `Bearer ${token.laravelAccessToken}`,

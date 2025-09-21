@@ -14,9 +14,11 @@ export const useNotification = () => {
 
 export const NotificationProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([])
+  const [counter, setCounter] = useState(0)
 
   const showNotification = useCallback((message, type = 'success', duration = 3000) => {
-    const id = Date.now() + Math.random()
+    const id = `notification-${Date.now()}-${counter}`
+    setCounter(prev => prev + 1)
     const notification = { id, message, type }
     
     setNotifications(prev => [...prev, notification])

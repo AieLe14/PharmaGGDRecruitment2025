@@ -62,6 +62,9 @@ Route::middleware(['auth:sanctum', 'role.admin'])->group(function () {
     });
 });
 
+// Public routes (no authentication required)
+Route::get('products', [ProductController::class, 'publicIndex']);
+
 Route::middleware(['auth:sanctum', 'role.admin'])->prefix('admin')->group(function () {
     Route::get('products', [ProductController::class, 'index']);
     Route::post('products', [ProductController::class, 'store'])->middleware('permission.product:products.create');

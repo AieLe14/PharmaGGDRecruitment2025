@@ -7,9 +7,6 @@ const DashboardNavigation = ({ activeTab, onTabChange }) => {
   const { hasPermission, adminInfo } = useAuth()
 
   useEffect(() => {
-    if (activeTab === 'users' && (!hasPermission('users.read') || adminInfo?.role?.code !== 'super_admin')) {
-      onTabChange('products')
-    }
     if (activeTab === 'settings' && !hasPermission('admins.read')) {
       onTabChange('products')
     }
@@ -22,11 +19,6 @@ const DashboardNavigation = ({ activeTab, onTabChange }) => {
       permission: null
     },
     {
-      id: 'users',
-      label: '👥 Utilisateurs',
-      permission: 'users.read'
-    },
-    {
       id: 'settings',
       label: '⚙️ Paramètres',
       permission: 'admins.read'
@@ -34,9 +26,6 @@ const DashboardNavigation = ({ activeTab, onTabChange }) => {
   ]
 
   const visibleTabs = tabs.filter(tab => {
-    if (tab.id === 'users') {
-      return hasPermission(tab.permission) && adminInfo?.role?.code === 'super_admin'
-    }
     return !tab.permission || hasPermission(tab.permission)
   })
 

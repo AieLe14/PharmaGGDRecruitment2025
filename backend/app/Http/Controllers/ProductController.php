@@ -10,7 +10,55 @@ use Illuminate\Validation\Rule;
 class ProductController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource for public access.
+     */
+    public function publicIndex(Request $request): JsonResponse
+    {
+        $query = Product::query();
+
+        // Only show active products for public access
+        $query->where('is_active', true);
+
+        // Search functionality
+        if ($request->has('search') && !empty($request->get('search'))) {
+            $search = $request->get('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%")
+                  ->orWhere('sku', 'like', "%{$search}%");
+            });
+        }
+
+        // Category filter
+        if ($request->has('category') && !empty($request->get('category'))) {
+            $query->where('category', $request->get('category'));
+        }
+
+        // Sorting
+        $sortBy = $request->get('sort', 'name');
+        $sortOrder = $request->get('order', 'asc');
+        
+        // Validate sort fields
+        $allowedSortFields = ['name', 'price', 'created_at', 'stock'];
+        if (!in_array($sortBy, $allowedSortFields)) {
+            $sortBy = 'name';
+        }
+        
+        if (!in_array($sortOrder, ['asc', 'desc'])) {
+            $sortOrder = 'asc';
+        }
+
+        $query->orderBy($sortBy, $sortOrder);
+
+        // Pagination
+        $perPage = min($request->get('limit', 12), 50); // Max 50 items per page
+        $products = $query->paginate($perPage);
+
+        return response()->json($products);
+    }
+
+    /**
+     * Display a listing of the resource for admin access.
      */
     public function index(Request $request): JsonResponse
     {
